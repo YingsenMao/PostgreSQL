@@ -28,3 +28,26 @@ ALTER TABLE public."Training"
 
 COPY public."Training" FROM 'C:\Users\Daniemao\Documents\d3\Titanic\train.csv' DELIMITER ',' CSV HEADER;
 ```
+
+# Access from django
+Change the database setting using the database name and table name. Below is an example.
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Titanic',
+        'USER': 'postgres',
+        'PASSWORD': '3326999',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+Run below create the model defination
+```
+python manage.py inspectdb Training
+```
+Because the table **already exists** in postgresql database. Run below code
+```
+python manage.py migrate --fake-initial
+```
