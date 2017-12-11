@@ -51,3 +51,11 @@ Because the table **already exists** in postgresql database. Run below code
 ```
 python manage.py migrate --fake-initial
 ```
+# Change column data type and create primary key
+From django perspective, each table must have a key.
+```
+ALTER TABLE babynames2 ALTER COLUMN year TYPE integer; 
+
+ALTER TABLE babynames2 ADD COLUMN id BIGSERIAL PRIMARY KEY;
+```
+<img src="migrate.jpg" width="350"/>
