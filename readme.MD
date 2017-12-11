@@ -1,4 +1,4 @@
-# Import csv file
+## Import csv file
 ```
 DROP TABLE public."Training";
 
@@ -29,7 +29,7 @@ ALTER TABLE public."Training"
 COPY public."Training" FROM 'C:\Users\Daniemao\Documents\d3\Titanic\train.csv' DELIMITER ',' CSV HEADER;
 ```
 
-# Access from django
+## Access from django
 Change the database setting using the database name and table name. Below is an example.
 ```python
 DATABASES = {
@@ -51,11 +51,11 @@ Because the table **already exists** in postgresql database. Run below code
 ```
 python manage.py migrate --fake-initial
 ```
-# Change column data type and create primary key
+## Change column data type and create primary key
 From django perspective, each table must have a key.
 ```
 ALTER TABLE babynames2 ALTER COLUMN year TYPE integer; 
 
 ALTER TABLE babynames2 ADD COLUMN id BIGSERIAL PRIMARY KEY;
 ```
-<img src="migrate.jpg" width="350"/>
+<img src="migrate.JPG" width="350"/>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+<!--
+    <h1>Welcome to your new Wagtail site!</h1>
+
+    <p>You can access the admin interface <a href="{% url 'wagtailadmin_home' %}">here</a> (make sure you have run "./manage.py createsuperuser" in the console first).</p>
+
+    <p>If you haven't already given the documentation a read, head over to <a href="http://docs.wagtail.io/">http://docs.wagtail.io</a> to start building on Wagtail</p>
+-->
+<h2>{{ page.title }}</h2>
+
+<!--
+<p class="meta">{{ page.date }}</p>
+
+<div class="intro">{{ page.intro }}</div>-->
+
+<p>{{ page.body|richtext }}</p>
+
+<!---
+{% for item in page.gallery_images.all %}
+    <div style="float: left; margin: 10px">
+        {% image item.image fill-320x240 %}
+        <p>{{ item.caption }}</p>
+    </div>
+{% endfor %}
+-->
+<span style="font-weight:bold"><a href="{{ page.get_parent.url }}">返回首页</a></p>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if firstFive %}
+<ul>
+{% for dt in firstFive %}
+    <!--Removing hardcoded URLs in templates
+    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>  
+    -->
+    <li>{{ dt.name }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No data is available.</p>
+{% endif %}
+{% endblock %}

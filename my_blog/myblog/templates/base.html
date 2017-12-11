@@ -1,0 +1,131 @@
+{% load static wagtailuserbar %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/myblog.css' %}">
+
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/fontello.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+
+        <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+        <script>
+                $(document).ready(function () {
+                    $('#side-nav-iwrapper').width($('.side-nav').width());
+        
+                    $(window).resize(function () {
+                        $('#side-nav-iwrapper').width($('.side-nav').width());
+                    });
+        
+                    var $container = $('.projects-row');
+                    render_portfolio($container);
+                    $container.imagesLoaded(function() {
+                        $container.packery({
+                            itemSelector: '.project-card',
+                            columnWidth: '.project-card',
+                            gutter: 0,
+                        });
+                    });
+                });
+            </script>
+    
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+            ga('create', 'UA-41030351-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+
+        <header class="visible-xs visible-sm">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#fix-top-nav">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+        
+                    <div class="collapse navbar-collapse" id="fix-top-nav">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="/">杂记</a></li>
+                            <li><a href="/data/">数据</a></li>
+                            <li><a href="/music/">音乐</a></li>
+                            <li><a href="/resume/">经历</a></li>
+                            <li><a href="https://github.com/YingsenMao">代码</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <div class="container">
+            <div class="row content-row">
+                <div class="col-xs-12 col-md-3 side-nav">
+                    <div id="side-nav-iwrapper" data-spy="affix">
+                        <img src="{% static 'image/head.gif' %}" style="width:60%;height:60%;" alt="skiing selfie" class="img-responsive img-circle profile-img">
+        
+                        <h1 class="name">Daniel Mao</h1>
+                        <h2 class="blurb">Dreamer and Bloger. Guitarist and Programmer</h2>
+        
+                        <nav class="hidden-sm hidden-xs">
+                            <ul class="vertical-nav">
+                                <li class="active"><a href="/">杂记</a></li>
+                                <li><a href="/data/">数据</a></li>
+                                <li><a href="/music/">音乐</a></li>
+                                <li><a href="/resume/">经历</a></li>
+                                <li><a href="https://github.com/YingsenMao">代码</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-9 body-content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/myblog.js' %}"></script>
+
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>
