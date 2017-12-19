@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('name', models.TextField(blank=True, null=True)),
                 ('n', models.IntegerField(blank=True, null=True)),
                 ('prop', models.FloatField(blank=True, null=True)),
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
             ],
             options={
                 'db_table': 'babynames2',

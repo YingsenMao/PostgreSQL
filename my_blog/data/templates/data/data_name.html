@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+<p>
+    <label for="your_name">Baby name: </label>
+    <input id="your_name" type="text" name="your_name" value="Daniel">
+    <input type="submit" value="OK">
+</p>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
+<script>
+    var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+
+    //var parseDate = d3.time.format("%Y-%m-%d").parse; // for dates like "2014-01-01"
+    //var parseDate = d3.time.format("%Y-%m-%dT00:00:00Z").parse;  // for dates like "2014-01-01T00:00:00Z"
+    var parseTime = d3.timeParse("%Y");
+
+    var x = d3.scaleTime()
+        .rangeRound([0, width]);
+
+    var y = d3.scaleLinear()
+        .rangeRound([height, 0]);
+
+    var line = d3.line()
+        .x(function(d) { return x(d.year); })
+        .y(function(d) { return y(d.total); });
+
+    //console.log(babyname);
+    //console.log(updated_url);
+
+    $(document).ready(function() {
+
+        $('#your_name').keyup(function() {
+            //console.log($(this).val());
+            //console.log(updated_url);
+            $.ajax({
+
+                // The URL for the request
+                url: 'api/' + $(this).val() + '/sum_by_sex_year/',
+
+                // The data to send (will be converted to a query string)
+                //data: {
+                //    id: 123
+                //},
+
+                // Whether this is a POST or GET request
+                type: "GET",
+
+                // The type of data we expect back
+                dataType : "json",
+                })
+                // Code to run if the request succeeds (is done);
+                // The response is passed to the function
+                .done(function( json ) {
+                    //console.log( json );
+                    var post_data = json;
+                    drawChart(post_data);
+                })
+                // Code to run if the request fails; the raw request and
+                // status codes are passed to the function
+                //.fail(function( xhr, status, errorThrown ) {
+                //    alert( "Sorry, there was a problem!" );
+                //    console.log( "Error: " + errorThrown );
+                //    console.log( "Status: " + status );
+                //    console.dir( xhr );
+                //})
+                // Code to run regardless of success or failure;
+                //.always(function( xhr, status ) {
+                //    alert( "The request is complete!" );
+        });
+    });
+
+function drawChart(data){
+
+    for(var i = 0; i < data.length; i++) {
+        data[i]['year'] = parseTime(data[i]['year']);
+    }
+
+    d3.selectAll("g > *").remove();
+
+    x.domain(d3.extent(data, function(d) { return d.year; }));
+    y.domain(d3.extent(data, function(d) { return d.total; }));
+
+    g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+        .select(".domain")
+        .remove();
+
+    g.append("g")
+        .call(d3.axisLeft(y))
+        .append("text")
+        .attr("fill", "#000")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("text-anchor", "end")
+        .text("Number");
+
+    g.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+}
+
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ class Babynames2(models.Model):
     name = models.TextField(blank=True, null=True)
     n = models.IntegerField(blank=True, null=True)
     prop = models.FloatField(blank=True, null=True)
-    id = models.BigAutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
